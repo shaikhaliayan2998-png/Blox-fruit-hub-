@@ -1,0 +1,33 @@
+-- Auto Farm Button GUI
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Create button
+local screenGui = Instance.new("ScreenGui", player.PlayerGui)
+local button = Instance.new("TextButton", screenGui)
+
+button.Size = UDim2.new(0, 200, 0, 50)
+button.Position = UDim2.new(0.5, -100, 0.8, 0)
+button.Text = "AUTO FARM: OFF"
+button.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+
+local autofarm = false
+
+button.MouseButton1Click:Connect(function()
+	autofarm = not autofarm
+	if autofarm then
+		button.Text = "AUTO FARM: ON"
+		button.BackgroundColor3 = Color3.fromRGB(100, 255, 100)
+	else
+		button.Text = "AUTO FARM: OFF"
+		button.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+	end
+end)
+
+-- Fire remote for server auto-farm
+while true do
+	if autofarm then
+		game.ReplicatedStorage.AutoFarmRemote:FireServer()
+	end
+	task.wait(0.2)
+end
